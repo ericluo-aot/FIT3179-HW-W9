@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>F1 Circuits Map</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+<div id="vis"></div>
+<script type="text/javascript">
+vegaEmbed('#vis', {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 900,
+  "height": 500,
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "fill": "#e0e0e0", "stroke": "white"}
+    },
+    {
+      "data": {
+        "url": "https://https://github.com/ericluo-aot/FIT3179-HW-W9/blob/main/circuits_summary.csv"
+      },
+      "mark": {"type": "circle", "stroke": "black", "strokeWidth": 0.5, "opacity": 0.7},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "size": {"field": "race_count", "type": "quantitative", "scale": {"range":[50,1500]}, "title":"Number of Races"},
+        "color": {"field": "race_count", "type": "quantitative", "scale":{"scheme":"reds"}, "title":"Number of Races"},
+        "tooltip": [
+          {"field":"circuit_name","type":"nominal","title":"Circuit"},
+          {"field":"country","type":"nominal"},
+          {"field":"race_count","type":"quantitative","title":"Races Held"},
+          {"field":"first_year","type":"quantitative"},
+          {"field":"last_year","type":"quantitative"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [{}]
+      },
+      "mark": {"type": "graticule","stroke":"#cccccc"}
+    }
+  ],
+  "title": "Formula 1 Circuits by Number of Races Held (1950–2023)"
+});
+</script>
+</body>
+</html>
